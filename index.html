@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>derma-cei</title>
+    <link rel="manifest" href="manifest.json">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#d81b60">
+    <meta name="apple-mobile-web-app-title" content="Derma CEI">
+    <link rel="apple-touch-icon" href="icono.png">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+        }
+
+        body {
+            background-color: #fff0f5;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 450px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .header {
+            text-align: center;
+            margin-top: 30px;
+            margin-bottom: 35px;
+            width: 100%;
+        }
+
+        h1 {
+            color: #d81b60;
+            font-size: 2.5rem;
+            font-weight: 800;
+            letter-spacing: -1px;
+            text-transform: lowercase;
+        }
+
+        .subtitle {
+            color: #ad1457;
+            font-size: 1rem;
+            margin-top: 5px;
+            font-weight: 400;
+            letter-spacing: 1px;
+        }
+
+        .menu-grid {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .menu-card {
+            background: white;
+            border: 2px solid transparent;
+            border-radius: 20px;
+            padding: 25px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            cursor: pointer;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            text-align: left;
+            width: 100%;
+        }
+
+        .menu-card:active {
+            transform: scale(0.98);
+            background-color: #fce4ec;
+        }
+
+        .icon-wrapper {
+            width: 60px;
+            height: 60px;
+            background-color: #ffe4e1;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+        }
+
+        .card-text h2 {
+            color: #d81b60;
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .card-text p {
+            color: #666;
+            font-size: 0.85rem;
+            line-height: 1.2;
+        }
+
+        .seccion-camara {
+            display: none;
+            width: 100%;
+            background: white;
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.05);
+            margin-top: 10px;
+            text-align: center;
+        }
+
+        .caja-texto {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ff69b4;
+            border-radius: 12px;
+            margin-top: 10px;
+            margin-bottom: 10px;
+            font-size: 0.95rem;
+            outline: none;
+        }
+
+        .btn-accion {
+            background-color: #ff69b4;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            font-weight: bold;
+            border-radius: 15px;
+            cursor: pointer;
+            margin-top: 10px;
+            width: 100%;
+        }
+
+        .btn-analizar {
+            background-color: #d81b60;
+            color: white;
+            border: none;
+            padding: 15px 20px;
+            font-weight: bold;
+            border-radius: 15px;
+            cursor: pointer;
+            margin-top: 15px;
+            width: 100%;
+            display: none;
+        }
+
+        #selector-archivo-piel, #selector-archivo-cosmetico {
+            display: none;
+        }
+
+        .vista-previa {
+            width: 100%;
+            max-height: 250px;
+            object-fit: contain;
+            border-radius: 15px;
+            margin-top: 15px;
+            display: none;
+        }
+
+        .resultado-ia {
+            margin-top: 15px;
+            padding: 15px;
+            background-color: #fff9fa;
+            border-left: 5px solid #d81b60;
+            border-radius: 8px;
+            text-align: left;
+            font-size: 0.9rem;
+            line-height: 1.4;
+            display: none;
+            white-space: pre-line;
+        }
+
+        .footer {
+            margin-top: auto;
+            padding-top: 40px;
+            padding-bottom: 10px;
+            font-size: 0.75rem;
+            color: #ad1457;
+            text-align: center;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="header">
+            <h1>derma-cei</h1>
+            <div class="subtitle">Cosmiatra de Bolsillo</div>
+        </div>
+
+        <div class="menu-grid">
+            
+            <div class="menu-card" onclick="toggleSeccion('zona-analizador')">
+                <div class="icon-wrapper">👁️</div>
+                <div class="card-text">
+                    <h2>ANALIZADOR DE PIEL</h2>
+                    <p>Diagnóstico de biotipo, fototipo, condiciones cutáneas y lesiones mediante IA.</p>
+                </div>
+            </div>
+
+            <div id="zona-analizador" class="seccion-camara">
+                <h3 style="color: #d81b60; font-size: 1.1rem;">Cargar Imagen del Rostro</h3>
+                <button class="btn-accion" onclick="document.getElementById('selector-archivo-piel').click()">
+                    📸 USAR CÁMARA / GALERÍA
+                </button>
+                <input type="file" id="selector-archivo-piel" accept="image/*">
+                <img id="foto-previa-piel" class="vista-previa" alt="Vista previa">
+                <button id="btn-procesar-piel" class="btn-analizar" onclick="llamarAlMensajero('piel')">
+                    🚀 INICIAR DIAGNÓSTICO
+                </button>
+                <div id="respuesta-piel" class="resultado-ia"></div>
+            </div>
+
+            <div class="menu-card" onclick="toggleSeccion('zona-cosmeticos')">
+                <div class="icon-wrapper">🔍</div>
+                <div class="card-text">
+                    <h2>ANALIZADOR DE COSMÉTICOS</h2>
+                    <p>Escaneo de INCI por foto (etiqueta o frasco de frente) o ingresando la marca.</p>
+                </div>
+            </div>
+
+            <div id="zona-cosmeticos" class="seccion-camara">
+                <h3 style="color: #d81b60; font-size: 1.1rem;">Opción A: Foto de Etiqueta o Frente del Frasco</h3>
+                <button class="btn-accion" onclick="document.getElementById('selector-archivo-cosmetico').click()">
+                    📸 CAPTURAR INCI / ENVASE
+                </button>
+                <input type="file" id="selector-archivo-cosmetico" accept="image/*">
+                <img id="foto-previa-cosmetico" class="vista-previa" alt="Vista previa">
+                
+                <h3 style="color: #d81b60; font-size: 1.1rem; margin-top: 15px;">Opción B: Escribir Marca y Producto</h3>
+                <input type="text" id="texto-producto" class="caja-texto" placeholder="Ej: Effaclar Gel Limpiador La Roche Posay" oninput="mostrarBotonCosmetico()">
+
+                <button id="btn-procesar-cosmetico" class="btn-analizar" onclick="llamarAlMensajero('cosmetico')">
+                    🔍 ANALIZAR COMPONENTES
+                </button>
+                <div id="respuesta-cosmetico" class="resultado-ia"></div>
+            </div>
+
+        </div>
+
+        <div class="footer">
+            Gestión Técnico-Analógica: Fabio — CEI 2026
+        </div>
+    </div>
+
+    <script>
+        var base64Piel = "";
+        var mimePiel = "image/jpeg";
+        
+        var base64Cosmetico = "";
+        var mimeCosmetico = "image/jpeg";
+
+        function toggleSeccion(idSeccion) {
+            var panel = document.getElementById(idSeccion);
+            panel.style.display = (panel.style.display === 'block') ? 'none' : 'block';
+        }
+
+        function mostrarBotonCosmetico() {
+            var texto = document.getElementById('texto-producto').value;
+            if(texto.trim() !== "") {
+                document.getElementById('btn-procesar-cosmetico').style.display = 'block';
+            }
+        }
+
+        document.getElementById('selector-archivo-piel').addEventListener('change', function(event) {
+            var archivo = event.target.files[0];
+            if (archivo) {
+                if(archivo.type) { mimePiel = archivo.type; }
+                document.getElementById('foto-previa-piel').src = URL.createObjectURL(archivo);
+                document.getElementById('foto-previa-piel').style.display = 'block';
+                document.getElementById('btn-procesar-piel').style.display = 'block';
+                var lector = new FileReader();
+                lector.onloadend = function() { base64Piel = lector.result.split(',')[1]; }
+                lector.readAsDataURL(archivo);
+            }
+        });
+
+        document.getElementById('selector-archivo-cosmetico').addEventListener('change', function(event) {
+            var archivo = event.target.files[0];
+            if (archivo) {
+                if(archivo.type) { mimeCosmetico = archivo.type; }
+                document.getElementById('foto-previa-cosmetico').src = URL.createObjectURL(archivo);
+                document.getElementById('foto-previa-cosmetico').style.display = 'block';
+                document.getElementById('btn-procesar-cosmetico').style.display = 'block';
+                var lector = new FileReader();
+                lector.onloadend = function() { base64Cosmetico = lector.result.split(',')[1]; }
+                lector.readAsDataURL(archivo);
+            }
+        });
+
+        async function llamarAlMensajero(tipo) {
+            var apiKey = "AIzaSyDFTrvREcFv2mL6T1MHWg2J48AKsOR3o2Y"; 
+            
+            var cuadroRespuesta = document.getElementById('respuesta-' + tipo);
+            var consignaIA = "";
+            var cuerpoMensaje = { "contents": [{ "parts": [] }] };
+
+            if (tipo === 'piel') {
+                consignaIA = "Actúa como un sistema avanzado de diagnóstico dermatocosmético para profesionales. Analiza la piel de la imagen provista. Estructura tu respuesta de forma técnica, estricta y profesional usando exactamente estos títulos: 1) BIOTIPO CUTÁNEO, 2) FOTOTIPO (Escala Fitzpatrick), 3) CONDICIONES / LESIONES VISIBLES. Describe detalladamente el tejido sin sugerir tratamientos, protocolos ni marcas comerciales.";
+                cuerpoMensaje.contents[0].parts.push({"text": consignaIA});
+                cuerpoMensaje.contents[0].parts.push({"inlineData": {"mimeType": mimePiel, "data": base64Piel}});
+            } else if (tipo === 'cosmetico') {
+                var textoEscrito = document.getElementById('texto-producto').value;
+                consignaIA = "Actúa como un analizador técnico de formulaciones cosméticas. Analiza los componentes (INCI) del producto solicitado (ya sea leyendo la lista de ingredientes de la foto, identificando el producto por el diseño de su envase frontal, o buscando en tu base de datos si se provee el nombre por texto). Estructura tu respuesta con estos títulos exactos: 1) PROCEDENCIA Y MARCA, 2) COMPONENTES PRINCIPALES (INCI), 3) pH ESTIMADO Y CONTRAINDICACIONES, 4) CRUCE DE SUSTANCIAS (alertas de combinación con otros activos fuertes), 5) POSIBLES ALÉRGENOS. Sé directo, científico y preciso.";
+                cuerpoMensaje.contents[0].parts.push({"text": consignaIA});
+                
+                if (textoEscrito.trim() !== "") {
+                    cuerpoMensaje.contents[0].parts.push({"text": "Producto a analizar: " + textoEscrito});
+                }
+                if (base64Cosmetico !== "") {
+                    cuerpoMensaje.contents[0].parts.push({"inlineData": {"mimeType": mimeCosmetico, "data": base64Cosmetico}});
+                }
+            }
+
+            if (apiKey === "TU_API_KEY_ACA" || !apiKey) {
+                alert('¡Falta meterle la clave al código! Reemplazá "TU_API_KEY_ACA" en el archivo.');
+                return;
+            }
+
+            cuadroRespuesta.style.display = 'block';
+            cuadroRespuesta.innerText = '⌛ Conectando con el intérprete de última generación... Procesando datos...';
+
+            var url = 'https://generativelanguage.googleapis.com/v1/models/gemini-2.5-flash:generateContent?key=' + apiKey;
+
+            try {
+                var respuestaServidor = await fetch(url, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(cuerpoMensaje)
+                });
+                var datos = await respuestaServidor.json();
+                if (datos.error) {
+                    cuadroRespuesta.innerText = '❌ Error de Google: ' + datos.error.message;
+                } else if (datos.candidates && datos.candidates[0].content.parts[0].text) {
+                    cuadroRespuesta.innerText = datos.candidates[0].content.parts[0].text;
+                } else {
+                    cuadroRespuesta.innerText = '❌ Error de lectura. El servidor no devolvió texto.';
+                }
+            } catch (error) {
+                cuadroRespuesta.innerText = '❌ Falla en la conexión: ' + error;
+            }
+        }
+
+        // PUENTE DE GUERRILLA: INSTALACIÓN PWA
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('sw.js')
+                    .then(reg => console.log('Service Worker registrado con éxito', reg))
+                    .catch(err => console.error('Falla al registrar Service Worker', err));
+            });
+        }
+    </script>
+</body>
+</html>
