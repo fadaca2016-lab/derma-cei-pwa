@@ -1,21 +1,17 @@
 {
-  "name": "Derma CEI",
   "short_name": "Derma CEI",
-  "start_url": "index.html",
-  "display": "standalone",
-  "background_color": "#fff0f5",
-  "theme_color": "#d81b60",
-  "orientation": "portrait",
+  "name": "Derma CEI - Cosmiatra de Bolsillo",
   "icons": [
     {
       "src": "icono.png",
-      "sizes": "192x192",
-      "type": "image/png"
-    },
-    {
-      "src": "icono.png",
+      "type": "image/png",
       "sizes": "512x512",
-      "type": "image/png"
+      "purpose": "any maskable"
     }
-  ]
+  ],
+  "start_url": "./index.html",
+  "background_color": "#fff0f5",
+  "theme_color": "#d81b60",
+  "display": "standalone",
+  "orientation": "portrait"
 }
